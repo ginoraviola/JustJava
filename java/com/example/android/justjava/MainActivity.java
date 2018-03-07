@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     int whippedCreamPrice = 1;
     int chocolatePrice = 2;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,9 +51,6 @@ public class MainActivity extends AppCompatActivity {
         price = calculatePrice(hasWhippedCream, hasChocolate);
         String summaryMessage = createOrderSummary(price, hasWhippedCream, hasChocolate, name);
         sendEmail(summaryMessage, name);
-
-
-
 
     }
 
@@ -88,12 +84,12 @@ public class MainActivity extends AppCompatActivity {
      */
     public String createOrderSummary(int price, boolean addWhippedCream, boolean addChocolate, String name) {
 
-        String summary = "Name: " + name;
-        summary += "\nAdd Whipped Cream? " + addWhippedCream;
-        summary += "\nAdd Chocolate? " + addChocolate;
-        summary += "\nQuantity: " + numberOfCoffees;
-        summary += "\nTotal: $" + price;
-        summary += "\nThank You!";
+        String summary = getString(R.string.order_summary_name) + name;
+        summary += "\n" + getString(R.string.order_summary_whipped_cream) + addWhippedCream;
+        summary += "\n" + getString(R.string.order_summary_chocolate) + addChocolate;
+        summary += "\n" + getString(R.string.order_summary_quantity) + numberOfCoffees;
+        summary += "\n" + getString(R.string.order_summary_price) + price;
+        summary += "\n" + getString(R.string.thank_you);
         return summary;
     }
 
@@ -130,10 +126,9 @@ public class MainActivity extends AppCompatActivity {
      */
     private void sendEmail(String summary, String name){
 
-
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("mailto:")); // only email apps should handle this
-        intent.putExtra(Intent.EXTRA_SUBJECT, "JustJava order for " + name);
+        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.order_summary_email_subject) + name);
         intent.putExtra(Intent.EXTRA_TEXT, summary );
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
